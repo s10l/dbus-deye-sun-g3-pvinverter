@@ -81,6 +81,27 @@ Within the project there is a file `/data/dbus-deye-sun-g3-pvinverter/config.ini
 | DEFAULT  | Position | Valid values 0, 1 or 2: represents where the inverter is connected (0=AC input 1; 1=AC output; 2=AC input 2) |
 | DEFAULT  | UpdateInterval | The interval how often the data is read from the inverter in seconds. The inverter itself accumulates the values every 5 minutes. |
 
+### Testing configuration
+If you encounter any issue please test your settings in config.ini with:
+```
+cd /data/dbus-deye-sun-g3-pvinverter/
+chmod a+x test-config.py
+./test-config.py
+```
+
+```
+The output should somehow look like this:
+2023-10-09 15:40:31,225 root INFO config...
+2023-10-09 15:40:31,226 root INFO xxx.xxx.xxx.xxx
+2023-10-09 15:40:31,227 root INFO 8899
+2023-10-09 15:40:31,227 root INFO xxxxxxxxxx
+2023-10-09 15:40:47,171 pysolarmanv5.pysolarmanv5 DEBUG Socket setup completed... <socket.socket fd=4, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('yyy.yyy.yyy.yyyy', 47644), raddr=('xxx.xxx.xxx.xxx', 8899)>
+... some more debug messages ...
+2023-10-09 15:40:47,925 root INFO data from deye:
+2023-10-09 15:40:47,926 root INFO {'acEnergyForward': 1.8, 'acPower': 43.0, 'acCurrent': 0.1, 'acVoltage': 240.0, '_firmwareVersion': '1.53'}
+```
+There should be no error message but some JSON like output with data fetched from your inverter.
+
 ## Used documentation
 - https://github.com/victronenergy/venus/wiki/dbus#pv-inverters   DBus paths for Victron namespace
 - https://github.com/victronenergy/venus/wiki/dbus-api   DBus API from Victron

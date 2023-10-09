@@ -1,15 +1,12 @@
 #!/usr/bin/env python
-
 import logging
-import configparser  # for config/ini file
+import configparser
 import os
 from pysolarmanv5 import PySolarmanV5
 from functools import reduce
-from datetime import datetime
 
 
 def main():
-    # configure logging
     logging.basicConfig(format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S',
                         level=logging.INFO,
@@ -40,8 +37,6 @@ def _getDeyeData():
         address=address, serial=serial, port=port, mb_slave_id=1, verbose=True
     )
 
-    _getSystemTime(modbus)
-
     acEnergyForward = _getDailyProduction(modbus)
     acPower = _getTotalACOutputPower(modbus)
     acCurrent = _getGridCurrent(modbus)
@@ -57,37 +52,7 @@ def _getDeyeData():
         "acVoltage": acVoltage,
         "_firmwareVersion": firmwareVersion,
     }
-    
-def _getSystemTime(modbus):
-    # {
-    #     "itemTitle_zh": "系统时间",
-    #     "itemTitle_en": "System time",
-    #     "registers": [
-    #       {
-    #         "address": "0016",
-    #         "value": ""
-    #       },
-    #       {
-    #         "address": "0017",
-    #         "value": ""
-    #       },
-    #       {
-    #         "address": "0018",
-    #         "value": ""
-    #       }
-    #     ],
-    #     "interaction": 11,
-    #     "parserRule": 16,
-    #     "ratio": 1,
-    #     "unit": ""
-    #   },
-    logging.info("values")
-    values = modbus.read_holding_registers(register_addr=0x0016, quantity=3)
-    logging.info(values)
 
-    logging.info("formatted")
-    formatted = modbus.read_holding_register_formatted(register_addr=0x0016, quantity=3, scale=1)
-    logging.info(formatted)
 
 def _getDailyProduction(modbus):
     # - name: "Daily Production"
@@ -148,6 +113,7 @@ def _getFirmwareVersion(modbus):
     config = _getConfig()
     firmwareVersion = config['DEFAULT']['FirmwareVersion']
     return firmwareVersion
+
 
 def _getConfig():
     config = configparser.ConfigParser()
