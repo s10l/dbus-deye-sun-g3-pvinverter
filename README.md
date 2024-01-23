@@ -58,7 +58,7 @@ After that call the install.sh script.
 The following script should do everything for you:
 ```
 wget https://github.com/s10l/dbus-deye-sun-g3-pvinverter/archive/refs/heads/main.zip
-unzip main.zip -jd /data/dbus-deye-sun-g3-pvinverter/ && rm main.zip
+unzip main.zip && mv dbus-deye-sun-g3-pvinverter-main /data/dbus-deye-sun-g3-pvinverter && rm main.zip
 cd /data/dbus-deye-sun-g3-pvinverter/
 chmod a+x install.sh
 ./install.sh
